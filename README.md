@@ -11,12 +11,14 @@
 
 ## Pre-Installation
 ### 1. Install java
-Install Java and set JAVA_HOME environment variable.
+Install Java 8 and above. Set `JAVA_HOME` environment variable.
 ```
 $ java -version
 $ echo $JAVA_HOME  // should return the jar path
 ```
-### 2. Set open file descriptors in the system
+### 2. Set File handlers or I/O resources in Ubuntu
+File descriptors are integers that act as handlers to files or I/O resources. They are unique identifiers that the operating system assigns to a file when it is opened.
+
 Set the maximum number of open file descriptors in the system. You can change that in the file `/etc/security/limits.conf`.
 ```
 * soft nofile 65536
@@ -39,11 +41,11 @@ Download the latest version of Doris `https://doris.apache.org/download` and unz
 
 ### 2 Frontend - Configure and run
 - cd into `fe` folder `$ cd apache-doris-x.x.x/fe`
-- Modify the FE configuration file `vi conf/fe.conf`
-- Mainly modify two parameters: `priority_networks` and `meta_dir`
+- Modify the FE configuration file `vi conf/fe.conf`. Refer section 2.1
 - If you need more optimized configuration, please refer to FE parameter configuration: `https://doris.apache.org/docs/1.2/admin-manual/config/fe-config` for instructions on how to adjust them.
 
 #### 2.1 Modify Conf file for FE
+Mainly modify two parameters: `priority_networks` and `meta_dir`
 ```
 priority_networks=172.23.16.0/24
 meta_dir=/path/your/doris-meta
@@ -126,11 +128,11 @@ $ ./bin/stop_fe.sh
 
 ### 3 Backend - Configure and run
 - Go to the `apache-doris-x.x.x/be` directory
-- Modify the BE configuration file `conf/be.conf`
-- Mainly modify two parameters: `priority_networks` and `storage_root`
+- Modify the BE configuration file `conf/be.conf`. Refer section 3.1
 - if you need more optimized configuration, please refer to BE parameter configuration: `https://doris.apache.org/docs/1.2/admin-manual/config/be-config` instructions to make adjustments.
 
 #### 3.1 Modify Conf file for BE
+Mainly modify two parameters: `priority_networks` and `storage_root`
 ```
 priority_networks=172.23.16.0/24
 storage_root_path=/path/your/data_dir
