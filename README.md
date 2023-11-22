@@ -9,7 +9,7 @@
    ```Frontend	| 16 core + | 64GB + | SSD or RAID card 100GB + | 10,000 Mbp network card	| 1-3*```<br />
    ```Backend	  | 16 core + | 64GB + | SSD or SATA, 100G +      | 10-100 Mbp network card	| 3 * ```<br />
 
-## Installation
+## Pre-Installation
 ### 1. Install java
 Install Java and set JAVA_HOME environment variable.
 ```
@@ -27,23 +27,23 @@ Set the maximum number of open file descriptors in the system. You can change th
 Install mysql installation guide ``` https://www.cyberciti.biz/faq/installing-mysql-server-on-ubuntu-22-04-lts-linux/``` or
 download the installation-free MySQL client ```https://doris-build-hk.oss-cn-hongkong.aliyuncs.com/mysql-client/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz```
 
-### 4. Install Apache Doris
+## Install Apache Doris
 To run Apache Doris you will have to install and run
 - Frontend(fe)
 - Backend(be)
   
 This will come in the tar file.
 
-#### 4.1 Download and Unzip
+### 1 Download and Unzip
 Download the latest version of Doris `https://doris.apache.org/download` and unzip the tar file ```tar zxf apache-doris-x.x.x.tar.gz```
 
-#### 4.2 Frontend - Configure and run
+### 2 Frontend - Configure and run
 - cd into `fe` folder `$ cd apache-doris-x.x.x/fe`
 - Modify the FE configuration file `vi conf/fe.conf`
 - Mainly modify two parameters: `priority_networks` and `meta_dir`
 - If you need more optimized configuration, please refer to FE parameter configuration: `https://doris.apache.org/docs/1.2/admin-manual/config/fe-config` for instructions on how to adjust them.
 
-##### 4.2.1 Modify Conf file for FE
+#### 2.1 Modify Conf file for FE
 ```
 priority_networks=172.23.16.0/24
 meta_dir=/path/your/doris-meta
@@ -51,7 +51,7 @@ meta_dir=/path/your/doris-meta
 ###### **Note 1**:- `priority_networks` parameter we have to configure during installation, especially when a machine has multiple IP addresses, we have to specify a unique IP address for FE.
 ###### **Note 2**:- Here you can leave `meta_dir` unconfigured, the default is doris-meta in your Doris FE installation directory. To configure the metadata directory separately, you need to create the directory you specify in advance
 
-##### 4.2.2 Run Fe (Frontend)
+#### 2.2 Run Fe (Frontend)
 Inside the `fe` folder run the command
 ```
 ./bin/start_fe.sh --daemon
@@ -71,7 +71,7 @@ http:// fe_ip:8030
 ###### Note1:- Here we use the Doris built-in default user, root, to log in with an empty password.
 ###### Note2:- This is an administrative interface for Doris, and only users with administrative privileges can log in.
 
-##### 4.2.3 Connect FE
+#### 2.3 Connect FE
 We will connect to Doris FE via MySQL client
 ```
 mysql -uroot -P9030 -h127.0.0.1
@@ -110,40 +110,40 @@ ReplayedJournalId: 49292
 ```
 1. If the IsMaster, Join and Alive columns are true, the node is normal.
 
-#####  4.2.4 SSl for FE MySql
+#### 2.4 SSl for FE MySql
 Communicate with the server over an encrypted connection
 Doris supports SSL-based encrypted connections. It currently supports TLS1.2 and TLS1.3 protocols. Doris' SSL mode can be enabled through the following configuration: Modify the FE configuration file `conf/fe.conf` and add `enable_ssl = true`.
 Refer: `https://doris.apache.org/docs/1.2/get-starting/#start-fe`
 
-##### 4.2.5 Scale FE Frontend
+#### 2.5 Scale FE Frontend
 To scale FE refer: `https://doris.apache.org/docs/dev/admin-manual/cluster-management/elastic-expansion/`
 
-##### 4.2.6 Stop FE Frontend
+#### 2.6 Stop FE Frontend
 ```
 $ ./bin/stop_fe.sh
 ```
 
 
-#### 4.3 Backend - Configure and run
+### 3 Backend - Configure and run
 - Go to the `apache-doris-x.x.x/be` directory
 - Modify the BE configuration file `conf/be.conf`
 - Mainly modify two parameters: `priority_networks` and `storage_root`
 - if you need more optimized configuration, please refer to BE parameter configuration: `https://doris.apache.org/docs/1.2/admin-manual/config/be-config` instructions to make adjustments.
 
-##### 4.3.1 Modify Conf file for BE
+#### 3.1 Modify Conf file for BE
 ```
 priority_networks=172.23.16.0/24
 storage_root_path=/path/your/data_dir
 ```
 ###### Note1:- For 'storage_root_path', the default directory is in the storage directory of the BE installation directory. The storage directory for BE configuration must be created first
 
-##### 4.3.2 Start BE
+#### 3.2 Start BE
 Execute the following command in the BE installation directory to complete the BE startup.
 ```
 $ ./bin/start_be.sh --daemon
 ```
 
-##### 4.3.3 Add BE node to Apache Doris cluster
+#### 3.3 Add BE node to Apache Doris cluster
 Connect to FE via MySQL client and execute the following SQL to add the BE to the cluster/FE
 ```
 ALTER SYSTEM ADD BACKEND "be_host_ip:heartbeat_service_port";
@@ -186,7 +186,7 @@ ClusterDecommissioned: false
 ```
 Alive : true means the node is running normally
 
-##### 4.3.4 Stop BE
+#### 3.4 Stop BE
 The stopping of Doris BE can be done with the following command
 ```
 $ ./bin/stop_be.sh
