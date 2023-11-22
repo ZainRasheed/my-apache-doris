@@ -192,6 +192,6 @@ The stopping of Doris BE can be done with the following command
 $ ./bin/stop_be.sh
 ```
 
-#### 5 Reference
+## Reference
 1. https://doris.apache.org/docs/1.2/install/standard-deployment/
 2. https://doris.apache.org/docs/1.2/get-starting/
